@@ -1,3 +1,8 @@
+import { IUserDocument } from "@/models/User";
+import { Request } from "express";
+import { Types } from "mongoose";
+import { ParsedQs } from "qs";
+
 export enum UserRole {
   PATIENT = 'patient',
   DOCTOR = 'doctor',
@@ -48,14 +53,14 @@ export interface ISubscription {
 
 export interface IUserSubscription {
   _id: string;
-  userId: string;
-  subscriptionId: string;
+  userId: string | Types.ObjectId;
+  subscriptionId: string | Types.ObjectId;
   startDate: Date;
   endDate?: Date;
   isActive: boolean;
   appointmentsUsed: number;
   autoRenew: boolean;
-  paymentMethod?: string;
+  paymentMethod?: string | null;
 }
 
 export interface IAppointment {
@@ -109,7 +114,7 @@ export interface IDoctorProfile {
 }
 
 export interface IPatientProfile {
-  userId: string;
+  userId: string | Types.ObjectId;
   emergencyContact: {
     name: string;
     relationship: string;
@@ -146,8 +151,15 @@ export interface PaginationQuery {
   fields?: string;
 }
 
-export interface AuthRequest extends Request {
-  user?: IUser;
+export interface AuthRequest<
+  P = Record<string, any>,
+  ResBody = any,
+  ReqBody = any,
+  ReqQuery = ParsedQs,
+  Locals extends Record<string, any> = Record<string, any>
+> extends Omit<Request<P, ResBody, ReqBody, ReqQuery, Locals>, "cookies"> {
+  user?: IUserDocument;
+  cookies: Record<string, any>;
 }
 
 // Permission System
