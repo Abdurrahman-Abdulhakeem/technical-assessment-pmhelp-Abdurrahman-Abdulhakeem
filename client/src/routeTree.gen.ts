@@ -9,38 +9,272 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RegisterRouteImport } from './routes/register'
+import { Route as LoginRouteImport } from './routes/login'
+import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedSubscriptionRouteImport } from './routes/_authenticated/subscription'
+import { Route as AuthenticatedProfileRouteImport } from './routes/_authenticated/profile'
+import { Route as AuthenticatedPatientsRouteImport } from './routes/_authenticated/patients'
+import { Route as AuthenticatedMedicalRecordsRouteImport } from './routes/_authenticated/medical-records'
+import { Route as AuthenticatedDoctorsRouteImport } from './routes/_authenticated/doctors'
+import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
+import { Route as AuthenticatedAppointmentsRouteImport } from './routes/_authenticated/appointments'
+import { Route as AuthenticatedAnalyticsRouteImport } from './routes/_authenticated/analytics'
+import { Route as AuthenticatedAdminIndexRouteImport } from './routes/_authenticated/admin/index'
+import { Route as AuthenticatedAdminUsersRouteImport } from './routes/_authenticated/admin/users'
+import { Route as AuthenticatedAdminSystemRouteImport } from './routes/_authenticated/admin/system'
+import { Route as AuthenticatedAdminSubscriptionsRouteImport } from './routes/_authenticated/admin/subscriptions'
+import { Route as AuthenticatedAdminAppointmentsRouteImport } from './routes/_authenticated/admin/appointments'
+import { Route as AuthenticatedAdminAnalyticsRouteImport } from './routes/_authenticated/admin/analytics'
 
+const RegisterRoute = RegisterRouteImport.update({
+  id: '/register',
+  path: '/register',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LoginRoute = LoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedRoute = AuthenticatedRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedSubscriptionRoute =
+  AuthenticatedSubscriptionRouteImport.update({
+    id: '/subscription',
+    path: '/subscription',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedProfileRoute = AuthenticatedProfileRouteImport.update({
+  id: '/profile',
+  path: '/profile',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedPatientsRoute = AuthenticatedPatientsRouteImport.update({
+  id: '/patients',
+  path: '/patients',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedMedicalRecordsRoute =
+  AuthenticatedMedicalRecordsRouteImport.update({
+    id: '/medical-records',
+    path: '/medical-records',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedDoctorsRoute = AuthenticatedDoctorsRouteImport.update({
+  id: '/doctors',
+  path: '/doctors',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAppointmentsRoute =
+  AuthenticatedAppointmentsRouteImport.update({
+    id: '/appointments',
+    path: '/appointments',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAnalyticsRoute = AuthenticatedAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminIndexRoute = AuthenticatedAdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminUsersRoute = AuthenticatedAdminUsersRouteImport.update({
+  id: '/admin/users',
+  path: '/admin/users',
+  getParentRoute: () => AuthenticatedRoute,
+} as any)
+const AuthenticatedAdminSystemRoute =
+  AuthenticatedAdminSystemRouteImport.update({
+    id: '/admin/system',
+    path: '/admin/system',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminSubscriptionsRoute =
+  AuthenticatedAdminSubscriptionsRouteImport.update({
+    id: '/admin/subscriptions',
+    path: '/admin/subscriptions',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminAppointmentsRoute =
+  AuthenticatedAdminAppointmentsRouteImport.update({
+    id: '/admin/appointments',
+    path: '/admin/appointments',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
+const AuthenticatedAdminAnalyticsRoute =
+  AuthenticatedAdminAnalyticsRouteImport.update({
+    id: '/admin/analytics',
+    path: '/admin/analytics',
+    getParentRoute: () => AuthenticatedRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/doctors': typeof AuthenticatedDoctorsRoute
+  '/medical-records': typeof AuthenticatedMedicalRecordsRoute
+  '/patients': typeof AuthenticatedPatientsRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/subscription': typeof AuthenticatedSubscriptionRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
+  '/admin/system': typeof AuthenticatedAdminSystemRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/analytics': typeof AuthenticatedAnalyticsRoute
+  '/appointments': typeof AuthenticatedAppointmentsRoute
+  '/dashboard': typeof AuthenticatedDashboardRoute
+  '/doctors': typeof AuthenticatedDoctorsRoute
+  '/medical-records': typeof AuthenticatedMedicalRecordsRoute
+  '/patients': typeof AuthenticatedPatientsRoute
+  '/profile': typeof AuthenticatedProfileRoute
+  '/subscription': typeof AuthenticatedSubscriptionRoute
+  '/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
+  '/admin/system': typeof AuthenticatedAdminSystemRoute
+  '/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/admin': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteWithChildren
+  '/login': typeof LoginRoute
+  '/register': typeof RegisterRoute
+  '/_authenticated/analytics': typeof AuthenticatedAnalyticsRoute
+  '/_authenticated/appointments': typeof AuthenticatedAppointmentsRoute
+  '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
+  '/_authenticated/doctors': typeof AuthenticatedDoctorsRoute
+  '/_authenticated/medical-records': typeof AuthenticatedMedicalRecordsRoute
+  '/_authenticated/patients': typeof AuthenticatedPatientsRoute
+  '/_authenticated/profile': typeof AuthenticatedProfileRoute
+  '/_authenticated/subscription': typeof AuthenticatedSubscriptionRoute
+  '/_authenticated/admin/analytics': typeof AuthenticatedAdminAnalyticsRoute
+  '/_authenticated/admin/appointments': typeof AuthenticatedAdminAppointmentsRoute
+  '/_authenticated/admin/subscriptions': typeof AuthenticatedAdminSubscriptionsRoute
+  '/_authenticated/admin/system': typeof AuthenticatedAdminSystemRoute
+  '/_authenticated/admin/users': typeof AuthenticatedAdminUsersRoute
+  '/_authenticated/admin/': typeof AuthenticatedAdminIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/analytics'
+    | '/appointments'
+    | '/dashboard'
+    | '/doctors'
+    | '/medical-records'
+    | '/patients'
+    | '/profile'
+    | '/subscription'
+    | '/admin/analytics'
+    | '/admin/appointments'
+    | '/admin/subscriptions'
+    | '/admin/system'
+    | '/admin/users'
+    | '/admin'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/login'
+    | '/register'
+    | '/analytics'
+    | '/appointments'
+    | '/dashboard'
+    | '/doctors'
+    | '/medical-records'
+    | '/patients'
+    | '/profile'
+    | '/subscription'
+    | '/admin/analytics'
+    | '/admin/appointments'
+    | '/admin/subscriptions'
+    | '/admin/system'
+    | '/admin/users'
+    | '/admin'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/login'
+    | '/register'
+    | '/_authenticated/analytics'
+    | '/_authenticated/appointments'
+    | '/_authenticated/dashboard'
+    | '/_authenticated/doctors'
+    | '/_authenticated/medical-records'
+    | '/_authenticated/patients'
+    | '/_authenticated/profile'
+    | '/_authenticated/subscription'
+    | '/_authenticated/admin/analytics'
+    | '/_authenticated/admin/appointments'
+    | '/_authenticated/admin/subscriptions'
+    | '/_authenticated/admin/system'
+    | '/_authenticated/admin/users'
+    | '/_authenticated/admin/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRoute: typeof AuthenticatedRouteWithChildren
+  LoginRoute: typeof LoginRoute
+  RegisterRoute: typeof RegisterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/register': {
+      id: '/register'
+      path: '/register'
+      fullPath: '/register'
+      preLoaderRoute: typeof RegisterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthenticatedRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,11 +282,150 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated/subscription': {
+      id: '/_authenticated/subscription'
+      path: '/subscription'
+      fullPath: '/subscription'
+      preLoaderRoute: typeof AuthenticatedSubscriptionRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/profile': {
+      id: '/_authenticated/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof AuthenticatedProfileRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/patients': {
+      id: '/_authenticated/patients'
+      path: '/patients'
+      fullPath: '/patients'
+      preLoaderRoute: typeof AuthenticatedPatientsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/medical-records': {
+      id: '/_authenticated/medical-records'
+      path: '/medical-records'
+      fullPath: '/medical-records'
+      preLoaderRoute: typeof AuthenticatedMedicalRecordsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/doctors': {
+      id: '/_authenticated/doctors'
+      path: '/doctors'
+      fullPath: '/doctors'
+      preLoaderRoute: typeof AuthenticatedDoctorsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/dashboard': {
+      id: '/_authenticated/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof AuthenticatedDashboardRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/appointments': {
+      id: '/_authenticated/appointments'
+      path: '/appointments'
+      fullPath: '/appointments'
+      preLoaderRoute: typeof AuthenticatedAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/analytics': {
+      id: '/_authenticated/analytics'
+      path: '/analytics'
+      fullPath: '/analytics'
+      preLoaderRoute: typeof AuthenticatedAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/': {
+      id: '/_authenticated/admin/'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AuthenticatedAdminIndexRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/users': {
+      id: '/_authenticated/admin/users'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AuthenticatedAdminUsersRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/system': {
+      id: '/_authenticated/admin/system'
+      path: '/admin/system'
+      fullPath: '/admin/system'
+      preLoaderRoute: typeof AuthenticatedAdminSystemRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/subscriptions': {
+      id: '/_authenticated/admin/subscriptions'
+      path: '/admin/subscriptions'
+      fullPath: '/admin/subscriptions'
+      preLoaderRoute: typeof AuthenticatedAdminSubscriptionsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/appointments': {
+      id: '/_authenticated/admin/appointments'
+      path: '/admin/appointments'
+      fullPath: '/admin/appointments'
+      preLoaderRoute: typeof AuthenticatedAdminAppointmentsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
+    '/_authenticated/admin/analytics': {
+      id: '/_authenticated/admin/analytics'
+      path: '/admin/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AuthenticatedAdminAnalyticsRouteImport
+      parentRoute: typeof AuthenticatedRoute
+    }
   }
 }
 
+interface AuthenticatedRouteChildren {
+  AuthenticatedAnalyticsRoute: typeof AuthenticatedAnalyticsRoute
+  AuthenticatedAppointmentsRoute: typeof AuthenticatedAppointmentsRoute
+  AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
+  AuthenticatedDoctorsRoute: typeof AuthenticatedDoctorsRoute
+  AuthenticatedMedicalRecordsRoute: typeof AuthenticatedMedicalRecordsRoute
+  AuthenticatedPatientsRoute: typeof AuthenticatedPatientsRoute
+  AuthenticatedProfileRoute: typeof AuthenticatedProfileRoute
+  AuthenticatedSubscriptionRoute: typeof AuthenticatedSubscriptionRoute
+  AuthenticatedAdminAnalyticsRoute: typeof AuthenticatedAdminAnalyticsRoute
+  AuthenticatedAdminAppointmentsRoute: typeof AuthenticatedAdminAppointmentsRoute
+  AuthenticatedAdminSubscriptionsRoute: typeof AuthenticatedAdminSubscriptionsRoute
+  AuthenticatedAdminSystemRoute: typeof AuthenticatedAdminSystemRoute
+  AuthenticatedAdminUsersRoute: typeof AuthenticatedAdminUsersRoute
+  AuthenticatedAdminIndexRoute: typeof AuthenticatedAdminIndexRoute
+}
+
+const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
+  AuthenticatedAnalyticsRoute: AuthenticatedAnalyticsRoute,
+  AuthenticatedAppointmentsRoute: AuthenticatedAppointmentsRoute,
+  AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
+  AuthenticatedDoctorsRoute: AuthenticatedDoctorsRoute,
+  AuthenticatedMedicalRecordsRoute: AuthenticatedMedicalRecordsRoute,
+  AuthenticatedPatientsRoute: AuthenticatedPatientsRoute,
+  AuthenticatedProfileRoute: AuthenticatedProfileRoute,
+  AuthenticatedSubscriptionRoute: AuthenticatedSubscriptionRoute,
+  AuthenticatedAdminAnalyticsRoute: AuthenticatedAdminAnalyticsRoute,
+  AuthenticatedAdminAppointmentsRoute: AuthenticatedAdminAppointmentsRoute,
+  AuthenticatedAdminSubscriptionsRoute: AuthenticatedAdminSubscriptionsRoute,
+  AuthenticatedAdminSystemRoute: AuthenticatedAdminSystemRoute,
+  AuthenticatedAdminUsersRoute: AuthenticatedAdminUsersRoute,
+  AuthenticatedAdminIndexRoute: AuthenticatedAdminIndexRoute,
+}
+
+const AuthenticatedRouteWithChildren = AuthenticatedRoute._addFileChildren(
+  AuthenticatedRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRoute: AuthenticatedRouteWithChildren,
+  LoginRoute: LoginRoute,
+  RegisterRoute: RegisterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

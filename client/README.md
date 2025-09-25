@@ -1,301 +1,390 @@
-Welcome to your new TanStack app! 
+# 🏥 MedPortal - Complete Healthcare Management Platform
 
-# Getting Started
+A comprehensive, modern medical portal built with cutting-edge technologies for exceptional user experience and robust functionality.
 
-To run this application:
+## 🌟 Features
 
-```bash
-npm install
-npm run start
+# 🏥 MedPortal - Complete Healthcare Management Platform
+
+A comprehensive, modern medical portal built with cutting-edge technologies for exceptional user experience and robust functionality.
+
+## 🌟 Features
+
+### 🎯 Role-Based Access Control
+- **Patients**: Book appointments, view medical records, manage subscriptions
+- **Doctors**: Manage appointments, create medical notes, view analytics
+- **Admins**: Full system management, user oversight, platform analytics
+
+### 💎 Modern UI/UX
+- **Tailwind CSS Alpha**: Latest CSS-first approach without config files
+- **Framer Motion**: Smooth animations and micro-interactions
+- **Glass Morphism**: Beautiful backdrop blur effects
+- **Responsive Design**: Perfect on all devices
+- **Dark Mode Support**: System preference detection
+
+### 🔐 Security & Performance
+- **JWT Authentication**: Secure token-based auth
+- **Rate Limiting**: Subscription-based API limits
+- **Input Validation**: Zod schema validation
+- **Error Handling**: Comprehensive error boundaries
+- **Query Optimization**: TanStack Query caching
+
+### 📊 Subscription Management
+- **Free Tier**: 2 appointments/month, basic features
+- **Basic Tier**: 5 appointments/month, priority booking
+- **Premium Tier**: Unlimited appointments, advanced analytics
+
+## 🛠️ Tech Stack
+
+### Backend
+```
+Node.js + Express + TypeScript
+MongoDB + Mongoose
+JWT Authentication
+Rate Limiting + Security Headers
+Comprehensive API Documentation
 ```
 
-# Building For Production
+### Frontend
+```
+React 18 + TypeScript + Vite
+Tailwind CSS Alpha (CSS-first)
+TanStack Router + Query
+Framer Motion + Headless UI
+Form Handling + Validation
+```
 
-To build this application for production:
+## 🚀 Quick Start
 
+### Prerequisites
+- Node.js 18+
+- MongoDB 5+
+- npm/yarn/pnpm
+
+### Backend Setup
 ```bash
+# Navigate to backend
+cd medportal-backend
+
+# Install dependencies
+npm install
+
+# Setup environment
+cp .env.example .env
+# Edit .env with your configuration
+
+# Start MongoDB service
+# Windows: net start MongoDB
+# macOS: brew services start mongodb-community
+# Linux: sudo systemctl start mongod
+
+# Seed database (optional)
+npm run seed
+
+# Start development server
+npm run dev
+```
+
+### Frontend Setup
+```bash
+# Navigate to frontend
+cd medportal-frontend
+
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+```
+
+### 🌐 Access Points
+- **Frontend**: http://localhost:3000
+- **Backend API**: http://localhost:5000
+- **API Docs**: http://localhost:5000/api-docs
+- **Health Check**: http://localhost:5000/health
+
+## 🎭 Test Credentials
+
+### Admin User
+```
+Email: admin@medportal.com
+Password: admin123456
+```
+
+### Doctor Users
+```
+Dr. Smith (Cardiology)
+Email: dr.smith@medportal.com
+Password: doctor123456
+
+Dr. Johnson (Dermatology)
+Email: dr.johnson@medportal.com
+Password: doctor123456
+```
+
+### Patient Users
+```
+Alice Williams
+Email: patient1@example.com
+Password: patient123456
+
+Michael Brown
+Email: patient2@example.com
+Password: patient123456
+```
+
+## 🏗️ Project Structure
+
+```
+medportal/
+├── medportal-backend/
+│   ├── src/
+│   │   ├── config/          # Database & app configuration
+│   │   ├── controllers/     # Request handlers
+│   │   ├── middleware/      # Auth, validation, error handling
+│   │   ├── models/          # MongoDB schemas
+│   │   ├── routes/          # API route definitions
+│   │   ├── services/        # Business logic layer
+│   │   ├── types/           # TypeScript definitions
+│   │   ├── utils/           # Helper functions
+│   │   ├── app.ts           # Express app setup
+│   │   └── server.ts        # Server entry point
+│   ├── package.json
+│   └── README.md
+└── medportal-frontend/
+    ├── src/
+    │   ├── components/      # Reusable UI components
+    │   ├── hooks/           # Custom React hooks
+    │   ├── pages/           # Page components
+    │   ├── routes/          # TanStack router config
+    │   ├── services/        # API service layer
+    │   ├── types/           # TypeScript definitions
+    │   ├── utils/           # Helper functions
+    │   ├── index.css        # Tailwind + custom styles
+    │   └── main.tsx         # React entry point
+    ├── package.json
+    └── index.html
+```
+
+## 🔑 Key Features Implemented
+
+### Authentication & Authorization
+- [x] JWT-based authentication
+- [x] Role-based permissions
+- [x] Protected routes
+- [x] Session management
+
+### User Management
+- [x] Multi-role registration
+- [x] Profile management
+- [x] Account activation/deactivation
+- [x] Password security
+
+### Appointment System
+- [x] Appointment booking
+- [x] Schedule management
+- [x] Status tracking
+- [x] Conflict detection
+- [x] Cancellation system
+
+### Medical Records
+- [x] Electronic health records
+- [x] Doctor notes
+- [x] Medication tracking
+- [x] File attachments
+- [x] Access controls
+
+### Subscription Management
+- [x] Tiered pricing
+- [x] Usage tracking
+- [x] Upgrade/downgrade
+- [x] Rate limiting
+
+### Analytics Dashboard
+- [x] Patient analytics
+- [x] Doctor practice stats
+- [x] System-wide metrics
+- [x] Data visualization
+
+## 🎨 Design System
+
+### Color Palette
+```css
+Primary: Blue (#0ea5e9) to Purple (#8b5cf6)
+Success: Green (#22c55e)
+Warning: Yellow (#f59e0b)
+Danger: Red (#ef4444)
+Neutral: Slate (#64748b)
+```
+
+### Typography
+```css
+Headings: Inter, bold weights
+Body: Inter, regular/medium
+Code: JetBrains Mono
+```
+
+### Components
+- **Cards**: Rounded corners, subtle shadows, hover effects
+- **Buttons**: Gradient backgrounds, smooth transitions
+- **Forms**: Clean inputs with focus states
+- **Navigation**: Modern sidebar with active states
+- **Modals**: Glass morphism with backdrop blur
+
+## 🔧 API Endpoints
+
+### Authentication
+```
+POST /api/v1/auth/register    # User registration
+POST /api/v1/auth/login       # User login
+POST /api/v1/auth/logout      # User logout
+GET  /api/v1/auth/me          # Get current user
+PATCH /api/v1/auth/update-profile # Update profile
+```
+
+### Appointments
+```
+POST /api/v1/appointments     # Book appointment
+GET  /api/v1/appointments/my  # Get user appointments
+GET  /api/v1/appointments/:id # Get appointment details
+PATCH /api/v1/appointments/:id/status # Update status
+PATCH /api/v1/appointments/:id/cancel # Cancel appointment
+```
+
+### Subscriptions
+```
+GET  /api/v1/subscriptions           # Get all plans
+GET  /api/v1/subscriptions/current   # Get current plan
+POST /api/v1/subscriptions/upgrade   # Upgrade plan
+GET  /api/v1/subscriptions/appointment-limit # Check limits
+```
+
+### Medical Records
+```
+POST /api/v1/medical-records         # Create record
+GET  /api/v1/medical-records/my      # Get patient records
+GET  /api/v1/medical-records/:id     # Get record details
+PATCH /api/v1/medical-records/:id    # Update record
+DELETE /api/v1/medical-records/:id   # Delete record
+```
+
+## 🚀 Deployment
+
+### Environment Variables
+```bash
+# Backend (.env)
+NODE_ENV=production
+PORT=5000
+DATABASE_URI=mongodb+srv://...
+DATABASE_PASSWORD=your_password
+JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=90d
+FRONTEND_URL=https://your-domain.com
+
+# Frontend (.env)
+VITE_API_URL=https://api.your-domain.com/api/v1
+VITE_APP_NAME=MedPortal
+```
+
+### Build Commands
+```bash
+# Backend
+npm run build
+npm start
+
+# Frontend
 npm run build
 ```
 
-## Testing
 
-This project uses [Vitest](https://vitest.dev/) for testing. You can run the tests with:
+## 🧪 Testing
 
+### Backend Testing
 ```bash
-npm run test
+npm run test              # Run all tests
+npm run test:watch        # Watch mode
+npm run test:coverage     # Coverage report
 ```
 
-## Styling
-
-This project uses [Tailwind CSS](https://tailwindcss.com/) for styling.
-
-
-## Linting & Formatting
-
-
-This project uses [eslint](https://eslint.org/) and [prettier](https://prettier.io/) for linting and formatting. Eslint is configured using [tanstack/eslint-config](https://tanstack.com/config/latest/docs/eslint). The following scripts are available:
-
+### Frontend Testing
 ```bash
-npm run lint
-npm run format
-npm run check
+npm run test              # Run component tests
+npm run test:e2e          # End-to-end tests
+npm run test:coverage     # Coverage report
 ```
 
+## 📈 Performance Optimizations
 
+### Backend
+- **Database Indexing**: Optimized MongoDB queries
+- **Rate Limiting**: Subscription-based limits
+- **Compression**: Gzip response compression
+- **Caching**: Query result caching
+- **Connection Pooling**: MongoDB connection optimization
 
-## Routing
-This project uses [TanStack Router](https://tanstack.com/router). The initial setup is a file based router. Which means that the routes are managed as files in `src/routes`.
+### Frontend
+- **Code Splitting**: Route-based splitting
+- **Query Caching**: TanStack Query optimization
+- **Image Optimization**: Lazy loading, WebP format
+- **Bundle Analysis**: Webpack bundle analyzer
+- **Service Workers**: Offline functionality
 
-### Adding A Route
+## 🔒 Security Measures
 
-To add a new route to your application just add another a new file in the `./src/routes` directory.
+### Backend Security
+- **Helmet.js**: Security headers
+- **CORS**: Cross-origin configuration
+- **Rate Limiting**: API protection
+- **Input Sanitization**: MongoDB injection prevention
+- **JWT Security**: Secure token handling
 
-TanStack will automatically generate the content of the route file for you.
+### Frontend Security
+- **CSP Headers**: Content Security Policy
+- **XSS Protection**: Input sanitization
+- **HTTPS Only**: Secure connections
+- **Token Storage**: Secure storage practices
 
-Now that you have two routes you can use a `Link` component to navigate between them.
+## 📱 Mobile Responsiveness
 
-### Adding Links
+- **Breakpoints**: Mobile-first design
+- **Touch Gestures**: Optimized interactions
+- **Performance**: Optimized for mobile networks
+- **PWA Ready**: Service worker implementation
 
-To use SPA (Single Page Application) navigation you will need to import the `Link` component from `@tanstack/react-router`.
+## 🌐 Browser Support
 
-```tsx
-import { Link } from "@tanstack/react-router";
-```
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- Mobile browsers (iOS Safari, Chrome Mobile)
 
-Then anywhere in your JSX you can use it like so:
+## 🤝 Contributing
 
-```tsx
-<Link to="/about">About</Link>
-```
+1. Fork the repository
+2. Create feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit changes (`git commit -m 'Add amazing feature'`)
+4. Push to branch (`git push origin feature/amazing-feature`)
+5. Open Pull Request
 
-This will create a link that will navigate to the `/about` route.
+## 📄 License
 
-More information on the `Link` component can be found in the [Link documentation](https://tanstack.com/router/v1/docs/framework/react/api/router/linkComponent).
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-### Using A Layout
+## 🙏 Acknowledgments
 
-In the File Based Routing setup the layout is located in `src/routes/__root.tsx`. Anything you add to the root route will appear in all the routes. The route content will appear in the JSX where you use the `<Outlet />` component.
+- **React Team** - For the amazing React ecosystem
+- **Tailwind CSS** - For the beautiful utility-first CSS
+- **TanStack** - For excellent data fetching and routing
+- **Framer Motion** - For smooth animations
+- **MongoDB** - For the flexible database solution
 
-Here is an example layout that includes a header:
+## 📞 Support
 
-```tsx
-import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/react-router-devtools'
+For support, email support@medportal.com or join our Slack channel.
 
-import { Link } from "@tanstack/react-router";
+---
 
-export const Route = createRootRoute({
-  component: () => (
-    <>
-      <header>
-        <nav>
-          <Link to="/">Home</Link>
-          <Link to="/about">About</Link>
-        </nav>
-      </header>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
-})
-```
+**Built with ❤️ by the MedPortal Team**
 
-The `<TanStackRouterDevtools />` component is not required so you can remove it if you don't want it in your layout.
-
-More information on layouts can be found in the [Layouts documentation](https://tanstack.com/router/latest/docs/framework/react/guide/routing-concepts#layouts).
-
-
-## Data Fetching
-
-There are multiple ways to fetch data in your application. You can use TanStack Query to fetch data from a server. But you can also use the `loader` functionality built into TanStack Router to load the data for a route before it's rendered.
-
-For example:
-
-```tsx
-const peopleRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: "/people",
-  loader: async () => {
-    const response = await fetch("https://swapi.dev/api/people");
-    return response.json() as Promise<{
-      results: {
-        name: string;
-      }[];
-    }>;
-  },
-  component: () => {
-    const data = peopleRoute.useLoaderData();
-    return (
-      <ul>
-        {data.results.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    );
-  },
-});
-```
-
-Loaders simplify your data fetching logic dramatically. Check out more information in the [Loader documentation](https://tanstack.com/router/latest/docs/framework/react/guide/data-loading#loader-parameters).
-
-### React-Query
-
-React-Query is an excellent addition or alternative to route loading and integrating it into you application is a breeze.
-
-First add your dependencies:
-
-```bash
-npm install @tanstack/react-query @tanstack/react-query-devtools
-```
-
-Next we'll need to create a query client and provider. We recommend putting those in `main.tsx`.
-
-```tsx
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-// ...
-
-const queryClient = new QueryClient();
-
-// ...
-
-if (!rootElement.innerHTML) {
-  const root = ReactDOM.createRoot(rootElement);
-
-  root.render(
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
-  );
-}
-```
-
-You can also add TanStack Query Devtools to the root route (optional).
-
-```tsx
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
-
-const rootRoute = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <ReactQueryDevtools buttonPosition="top-right" />
-      <TanStackRouterDevtools />
-    </>
-  ),
-});
-```
-
-Now you can use `useQuery` to fetch your data.
-
-```tsx
-import { useQuery } from "@tanstack/react-query";
-
-import "./App.css";
-
-function App() {
-  const { data } = useQuery({
-    queryKey: ["people"],
-    queryFn: () =>
-      fetch("https://swapi.dev/api/people")
-        .then((res) => res.json())
-        .then((data) => data.results as { name: string }[]),
-    initialData: [],
-  });
-
-  return (
-    <div>
-      <ul>
-        {data.map((person) => (
-          <li key={person.name}>{person.name}</li>
-        ))}
-      </ul>
-    </div>
-  );
-}
-
-export default App;
-```
-
-You can find out everything you need to know on how to use React-Query in the [React-Query documentation](https://tanstack.com/query/latest/docs/framework/react/overview).
-
-## State Management
-
-Another common requirement for React applications is state management. There are many options for state management in React. TanStack Store provides a great starting point for your project.
-
-First you need to add TanStack Store as a dependency:
-
-```bash
-npm install @tanstack/store
-```
-
-Now let's create a simple counter in the `src/App.tsx` file as a demonstration.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-function App() {
-  const count = useStore(countStore);
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-    </div>
-  );
-}
-
-export default App;
-```
-
-One of the many nice features of TanStack Store is the ability to derive state from other state. That derived state will update when the base state updates.
-
-Let's check this out by doubling the count using derived state.
-
-```tsx
-import { useStore } from "@tanstack/react-store";
-import { Store, Derived } from "@tanstack/store";
-import "./App.css";
-
-const countStore = new Store(0);
-
-const doubledStore = new Derived({
-  fn: () => countStore.state * 2,
-  deps: [countStore],
-});
-doubledStore.mount();
-
-function App() {
-  const count = useStore(countStore);
-  const doubledCount = useStore(doubledStore);
-
-  return (
-    <div>
-      <button onClick={() => countStore.setState((n) => n + 1)}>
-        Increment - {count}
-      </button>
-      <div>Doubled - {doubledCount}</div>
-    </div>
-  );
-}
-
-export default App;
-```
-
-We use the `Derived` class to create a new store that is derived from another store. The `Derived` class has a `mount` method that will start the derived store updating.
-
-Once we've created the derived store we can use it in the `App` component just like we would any other store using the `useStore` hook.
-
-You can find out everything you need to know on how to use TanStack Store in the [TanStack Store documentation](https://tanstack.com/store/latest).
-
-# Demo files
-
-Files prefixed with `demo` can be safely deleted. They are there to provide a starting point for you to play around with the features you've installed.
-
-# Learn More
-
-You can learn more about all of the offerings from TanStack in the [TanStack documentation](https://tanstack.com).
+*Revolutionizing healthcare management, one patient at a time.*
