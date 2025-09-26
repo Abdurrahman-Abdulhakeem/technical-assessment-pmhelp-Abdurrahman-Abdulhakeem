@@ -1,12 +1,16 @@
-import React from 'react';
+import React, { type ReactNode } from 'react';
 import { Outlet, createFileRoute, redirect } from '@tanstack/react-router';
 import { MainLayout } from '@/components/layout/MainLayout';
 import { AuthService } from '@/services/authService';
 
-const AuthenticatedLayout = () => {
+type Props = {
+  children?: ReactNode;
+};
+
+const AuthenticatedLayout = ({ children }: Props) => {
   return (
     <MainLayout>
-      <Outlet />
+      {children ?? <Outlet />}
     </MainLayout>
   );
 };

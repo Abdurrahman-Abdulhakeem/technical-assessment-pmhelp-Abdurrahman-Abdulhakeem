@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState, type ReactNode } from 'react';
 import { Outlet } from '@tanstack/react-router';
-// import { Header } from './Header';
 import { Header } from './Header';
 import { Sidebar } from './Sidebar';
 import { useCurrentUser } from '@/hooks/useAuth';
 import { Loading } from '@/components/ui/Loading';
 
-const MainLayout: React.FC = () => {
+type MainLayoutProps = {
+  children?: ReactNode; // make it optional so <MainLayout> works even without passing children
+};
+
+const MainLayout: React.FC<MainLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const { isLoading, error } = useCurrentUser();
 
@@ -25,7 +28,9 @@ const MainLayout: React.FC = () => {
           <h2 className="text-xl font-semibold text-slate-900 mb-2">
             Something went wrong
           </h2>
-          <p className="text-slate-600">Please refresh the page or try again later.</p>
+          <p className="text-slate-600">
+            Please refresh the page or try again later.
+          </p>
         </div>
       </div>
     );
@@ -34,19 +39,16 @@ const MainLayout: React.FC = () => {
   return (
     <div className="flex h-screen bg-slate-50">
       {/* Sidebar */}
-      <Sidebar
-        isOpen={sidebarOpen}
-        onClose={() => setSidebarOpen(false)}
-      />
+      <Sidebar isOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header onMenuToggle={() => setSidebarOpen(true)} />
-        
+
         {/* Page Content */}
         <main className="flex-1 overflow-y-auto">
           <div className="container mx-auto px-4 py-6 max-w-7xl">
-            <Outlet />
+            {children ?? <Outlet />}
           </div>
         </main>
       </div>
