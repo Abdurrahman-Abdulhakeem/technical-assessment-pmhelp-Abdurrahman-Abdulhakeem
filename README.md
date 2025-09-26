@@ -18,7 +18,7 @@ A comprehensive medical portal backend built with Node.js, Express, TypeScript, 
 ## Getting Started
 
 ### Prerequisites
-- Node.js (v18 or higher)
+- Node.js (v22 or higher)
 - MongoDB (v5 or higher)
 - npm or yarn
 
