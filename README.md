@@ -4,10 +4,6 @@ A comprehensive, modern medical portal built with cutting-edge technologies for 
 
 ## 🌟 Features
 
-# 🏥 MedPortal - Complete Healthcare Management Platform
-
-A comprehensive, modern medical portal built with cutting-edge technologies for exceptional user experience and robust functionality.
-
 ## 🌟 Features
 
 ### 🎯 Role-Based Access Control
