@@ -66,7 +66,7 @@ export class AppointmentService {
 
   static async getDoctorAppointments(doctorId: string): Promise<IAppointmentDocument[]> {
     return await AppointmentModel.find({ doctorId })
-      .populate('patient', 'firstName lastName email phone')
+      .populate({ path: 'patient', select: 'firstName lastName email phone' })
       .sort({ appointmentDate: 1 });
   }
 

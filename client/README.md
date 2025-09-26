@@ -47,7 +47,7 @@ Comprehensive API Documentation
 
 ### Frontend
 ```
-React 18 + TypeScript + Vite
+React 19 + TypeScript + Vite
 Tailwind CSS Alpha (CSS-first)
 TanStack Router + Query
 Framer Motion + Headless UI
@@ -57,14 +57,14 @@ Form Handling + Validation
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js 18+
-- MongoDB 5+
+- Node.js 22 +
+- MongoDB
 - npm/yarn/pnpm
 
 ### Backend Setup
 ```bash
 # Navigate to backend
-cd medportal-backend
+cd server
 
 # Install dependencies
 npm install
@@ -88,7 +88,7 @@ npm run dev
 ### Frontend Setup
 ```bash
 # Navigate to frontend
-cd medportal-frontend
+cd client
 
 # Install dependencies
 npm install
@@ -113,10 +113,6 @@ Password: admin123456
 
 ### Doctor Users
 ```
-Dr. Smith (Cardiology)
-Email: dr.smith@medportal.com
-Password: doctor123456
-
 Dr. Johnson (Dermatology)
 Email: dr.johnson@medportal.com
 Password: doctor123456
@@ -297,7 +293,7 @@ npm run build
 ```
 
 
-## 🧪 Testing
+<!-- ## 🧪 Testing
 
 ### Backend Testing
 ```bash
@@ -311,7 +307,7 @@ npm run test:coverage     # Coverage report
 npm run test              # Run component tests
 npm run test:e2e          # End-to-end tests
 npm run test:coverage     # Coverage report
-```
+``` -->
 
 ## 📈 Performance Optimizations
 

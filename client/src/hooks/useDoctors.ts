@@ -15,7 +15,7 @@ export const useDoctorProfile = (id?: string) => {
   return useQuery({
     queryKey: ['doctorProfile', id],
     queryFn: () => id ? DoctorService.getDoctorProfile(id) : DoctorService.getMyProfile(),
-    enabled: !!id || true,
+    enabled: !!id,
     staleTime: 5 * 60 * 1000,
   });
 };
@@ -45,7 +45,7 @@ export const useDoctorMutations = () => {
   });
 
   const updateAvailabilityMutation = useMutation({
-    mutationFn: (availability: DoctorProfile['availability']) =>
+    mutationFn: (availability: DoctorProfile['profile']['availability']) =>
       DoctorService.updateAvailability(availability),
     onSuccess: () => {
       toast.success('Availability updated successfully!');

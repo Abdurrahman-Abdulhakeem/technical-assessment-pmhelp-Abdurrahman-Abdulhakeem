@@ -21,6 +21,7 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Modal } from '@/components/ui/Modal';
 import { formatDateTime } from '@/utils/cn';
 import { AppointmentStatus } from '@/types';
+import { Link } from '@tanstack/react-router';
 
 const AppointmentsPage: React.FC = () => {
   const { appointments, isLoading, cancelAppointment, updateAppointmentStatus } = useAppointments();
@@ -64,6 +65,8 @@ const AppointmentsPage: React.FC = () => {
     return appointment.status === filter;
   }) || [];
 
+  console.log(filteredAppointments)
+
   const handleCancelAppointment = (appointmentId: string) => {
     if (window.confirm('Are you sure you want to cancel this appointment?')) {
       cancelAppointment.mutate(appointmentId);
@@ -93,10 +96,12 @@ const AppointmentsPage: React.FC = () => {
         </div>
         
         {isPatient && (
+          <Link to="/new-appointments/book">
           <Button onClick={() => setShowBookModal(true)} size="lg">
             <Plus className="w-4 h-4 mr-2" />
             Book Appointment
           </Button>
+          </Link>
         )}
       </div>
 
@@ -164,6 +169,7 @@ const AppointmentsPage: React.FC = () => {
                             {isPatient
                               ? `Dr. ${appointment.doctor?.firstName} ${appointment.doctor?.lastName}`
                               : `${appointment.patient?.firstName} ${appointment.patient?.lastName}`
+                          
                             }
                           </h3>
                           <Badge

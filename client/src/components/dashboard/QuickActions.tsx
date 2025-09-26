@@ -14,6 +14,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { usePermissions } from '@/hooks/usePermissions';
 import { cn } from '@/utils/cn';
+import { Link } from '@tanstack/react-router';
 
 const QuickActions: React.FC = () => {
   const { isPatient, isDoctor, isAdmin } = usePermissions();
@@ -26,7 +27,7 @@ const QuickActions: React.FC = () => {
           description: 'Schedule with your doctor',
           icon: <Calendar className="w-5 h-5" />,
           color: 'blue',
-          href: '/appointments/book'
+          href: '/new-appointments/book'
         },
         {
           title: 'View Records',
@@ -147,6 +148,7 @@ const QuickActions: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.3, delay: index * 0.1 }}
             >
+              <Link to={action.href}>
               <Button
                 variant="ghost"
                 className={cn(
@@ -163,6 +165,7 @@ const QuickActions: React.FC = () => {
                   <p className="text-xs opacity-90">{action.description}</p>
                 </div>
               </Button>
+              </Link>
             </motion.div>
           ))}
         </div>

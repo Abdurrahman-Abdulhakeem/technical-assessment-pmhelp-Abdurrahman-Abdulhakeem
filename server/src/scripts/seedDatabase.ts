@@ -6,8 +6,9 @@ import { DoctorProfileModel } from '../models/DoctorProfile';
 import { PatientProfileModel } from '../models/PatientProfile';
 import { UserSubscriptionModel } from '../models/UserSubscription';
 import { UserRole, SubscriptionTier } from '../types';
+import path from 'path';
 
-dotenv.config();
+dotenv.config({ path: path.resolve(__dirname, "../../../.env") });
 
 const seedData = {
   admin: {
@@ -167,8 +168,8 @@ const seedDatabase = async (): Promise<void> => {
 };
 
 // Run seeder if called directly
-// if (require.main === module) {
-//   seedDatabase();
-// }
+if (require.main === module) {
+  seedDatabase();
+}
 
 export default seedDatabase;

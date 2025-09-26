@@ -9,6 +9,7 @@ import { SubscriptionService } from './SubscriptionService';
 interface GetUsersQuery extends PaginationQuery {
   role?: UserRole;
   search?: string;
+  status?: 'active' | 'inactive';
 }
 
 interface GetDoctorsQuery extends PaginationQuery {
@@ -17,10 +18,10 @@ interface GetDoctorsQuery extends PaginationQuery {
 
 export class UserService {
   static async getAllUsers(query: GetUsersQuery) {
-    const { page = 1, limit = 10, role, search, sort = '-createdAt' } = query;
+    const { page = 1, limit = 10, role, search, sort = '-createdAt', status } = query;
     
     // Build filter object
-    const filter: any = { isActive: true };
+    const filter: any = {};
     
     if (role) {
       filter.role = role;
@@ -33,6 +34,9 @@ export class UserService {
         { email: { $regex: search, $options: 'i' } }
       ];
     }
+
+    if (status === 'active') filter.isActive = true;
+    if (status === 'inactive') filter.isActive = false;
 
     const skip = (page - 1) * limit;
     

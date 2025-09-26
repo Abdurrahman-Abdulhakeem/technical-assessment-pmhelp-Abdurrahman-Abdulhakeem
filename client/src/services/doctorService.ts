@@ -21,14 +21,14 @@ export class DoctorService {
     return response.data!;
   }
 
-  static async updateAvailability(availability: DoctorProfile['availability']): Promise<DoctorProfile> {
+  static async updateAvailability(availability: DoctorProfile['profile']['availability']): Promise<DoctorProfile> {
     const response = await apiService.patch<ApiResponse<DoctorProfile>>('/doctors/availability', { availability });
     return response.data!;
   }
 
   static async getDoctorAvailability(id: string, date?: string): Promise<{
     date?: Date;
-    availability: DoctorProfile['availability'];
+    availability: DoctorProfile['profile']['availability'];
     timeSlots?: Array<{
       time: string;
       available: boolean;
@@ -37,7 +37,7 @@ export class DoctorService {
     const params = date ? `?date=${date}` : '';
     const response = await apiService.get<ApiResponse<{
       date?: Date;
-      availability: DoctorProfile['availability'];
+      availability: DoctorProfile['profile']['availability'];
       timeSlots?: Array<{
         time: string;
         available: boolean;

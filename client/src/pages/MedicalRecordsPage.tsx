@@ -19,11 +19,12 @@ import { Loading } from '@/components/ui/Loading';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { Modal } from '@/components/ui/Modal';
 import { formatDateTime } from '@/utils/cn';
+import type { MedicalRecord } from '@/types';
 
 const MedicalRecordsPage: React.FC = () => {
   const { medicalRecords, isLoading, createMedicalRecord, deleteMedicalRecord } = useMedicalRecords();
   const { isPatient, isDoctor } = usePermissions();
-  const [selectedRecord, setSelectedRecord] = useState(null);
+  const [selectedRecord, setSelectedRecord] = useState<MedicalRecord | null>(null);
   const [showCreateModal, setShowCreateModal] = useState(false);
 
   const handleDeleteRecord = (recordId: string) => {

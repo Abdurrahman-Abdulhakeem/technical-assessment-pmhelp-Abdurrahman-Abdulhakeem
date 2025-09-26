@@ -51,7 +51,9 @@ const appointmentSchema = new Schema<IAppointmentDocument>({
     maxlength: [1000, 'Notes cannot be more than 1000 characters']
   }
 }, {
-  timestamps: true
+  timestamps: true,
+  toJSON: { virtuals: true },
+  toObject: { virtuals: true }
 });
 
 // Indexes

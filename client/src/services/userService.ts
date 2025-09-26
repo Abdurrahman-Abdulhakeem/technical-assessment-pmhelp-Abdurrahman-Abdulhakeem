@@ -22,6 +22,11 @@ export class UserService {
     };
   }
 
+  static async createUser(data: Partial<User>): Promise<User> {
+    const response = await apiService.post<ApiResponse<User>>(`/auth/register`, data);
+    return response.data!;
+  }
+
   static async getUserById(id: string): Promise<User> {
     const response = await apiService.get<ApiResponse<User>>(`/users/${id}`);
     return response.data!;

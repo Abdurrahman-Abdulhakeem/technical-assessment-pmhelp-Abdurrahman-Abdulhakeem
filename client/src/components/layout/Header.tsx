@@ -13,6 +13,7 @@ import { useCurrentUser, useAuth } from '@/hooks/useAuth';
 import { Button } from '@/components/ui/Button';
 import { Badge } from '@/components/ui/Badge';
 import { cn, getInitials } from '@/utils/cn';
+import { Link } from '@tanstack/react-router';
 
 interface HeaderProps {
   onMenuToggle: () => void;
@@ -119,10 +120,11 @@ const Header: React.FC<HeaderProps> = ({ onMenuToggle }) => {
                 </div>
                 
                 <div className="py-2">
+                  <Link to={"/profile"}>
                   <button className="flex items-center gap-3 w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                     <User className="h-4 w-4" />
                     Profile
-                  </button>
+                  </button></Link>
                   <button className="flex items-center gap-3 w-full px-4 py-2 text-sm text-slate-700 hover:bg-slate-50">
                     <Settings className="h-4 w-4" />
                     Settings

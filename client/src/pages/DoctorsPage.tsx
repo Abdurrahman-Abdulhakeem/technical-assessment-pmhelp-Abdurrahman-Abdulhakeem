@@ -21,11 +21,13 @@ import { EmptyState } from '@/components/ui/EmptyState';
 import { Modal } from '@/components/ui/Modal';
 import { formatCurrency, getInitials } from '@/utils/cn';
 import { useDebounce } from '@/hooks/useDebounce';
+import { Link } from '@tanstack/react-router';
 
 const DoctorsPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [specializationFilter, setSpecializationFilter] = useState('');
-  const [selectedDoctor, setSelectedDoctor] = useState(null);
+  type Doctor = typeof doctorsData extends { doctors: (infer D)[] } ? D : any;
+  const [selectedDoctor, setSelectedDoctor] = useState<Doctor | null>(null);
   const [showBookingModal, setShowBookingModal] = useState(false);
 
   const debouncedSearch = useDebounce(searchQuery, 500);
@@ -125,20 +127,20 @@ const DoctorsPage: React.FC = () => {
                   <div className="text-center mb-4">
                     <div className="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-500 rounded-2xl flex items-center justify-center text-white text-xl font-bold mx-auto mb-3">
                       {doctor.user 
-                        ? getInitials(doctor.user.firstName, doctor.user.lastName)
+                        ? getInitials(doctor.firstName, doctor.lastName)
                         : 'DR'
                       }
                     </div>
                     <h3 className="font-bold text-slate-900">
-                      Dr. {doctor.user?.firstName} {doctor.user?.lastName}
+                      Dr. {doctor.firstName} {doctor.lastName}
                     </h3>
-                    <p className="text-blue-600 font-medium">{doctor.specialization}</p>
+                    <p className="text-blue-600 font-medium">{doctor.profile.specialization}</p>
                     
                     {/* Rating */}
                     <div className="flex items-center justify-center gap-1 mt-2">
                       <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                      <span className="font-medium">{doctor.rating || 4.8}</span>
-                      <span className="text-slate-500">({doctor.reviewCount || 23} reviews)</span>
+                      <span className="font-medium">{doctor.profile.rating || 4.8}</span>
+                      <span className="text-slate-500">({doctor.profile.reviewCount || 23} reviews)</span>
                     </div>
                   </div>
 
@@ -146,28 +148,28 @@ const DoctorsPage: React.FC = () => {
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-sm text-slate-600">
                       <GraduationCap className="w-4 h-4" />
-                      <span>{doctor.experience} years experience</span>
+                      <span>{doctor.profile.experience} years experience</span>
                     </div>
                     
                     <div className="flex items-center gap-2 text-sm text-slate-600">
                       <Award className="w-4 h-4" />
-                      <span>License: {doctor.licenseNumber}</span>
+                      <span>License: {doctor.profile.licenseNumber}</span>
                     </div>
                     
                     <div className="flex items-center justify-between text-sm">
                       <span className="text-slate-600">Consultation Fee:</span>
                       <span className="font-semibold text-green-600">
-                        {formatCurrency(doctor.consultationFee)}
+                        {formatCurrency(doctor.profile.consultationFee)}
                       </span>
                     </div>
 
                     {/* Education */}
-                    {doctor.education && doctor.education.length > 0 && (
+                    {doctor.profile.education && doctor.profile.education.length > 0 && (
                       <div className="pt-2">
                         <p className="text-xs font-medium text-slate-700 mb-1">Education:</p>
                         <p className="text-xs text-slate-500">
-                          {doctor.education[0]}
-                          {doctor.education.length > 1 && ` +${doctor.education.length - 1} more`}
+                          {doctor.profile.education[0]}
+                          {doctor.profile.education.length > 1 && ` +${doctor.profile.education.length - 1} more`}
                         </p>
                       </div>
                     )}
@@ -205,7 +207,7 @@ const DoctorsPage: React.FC = () => {
         <Modal
           isOpen={showBookingModal}
           onClose={() => setShowBookingModal(false)}
-          title={`Book Appointment with Dr. ${selectedDoctor.user?.firstName} ${selectedDoctor.user?.lastName}`}
+          title={`Book Appointment with Dr. ${selectedDoctor.firstName} ${selectedDoctor.lastName}`}
           size="lg"
         >
           <div className="text-center py-8">
@@ -227,9 +229,10 @@ const DoctorsPage: React.FC = () => {
               <Button onClick={() => setShowBookingModal(false)} variant="outline">
                 Cancel
               </Button>
+              <Link to="/new-appointments/book">
               <Button onClick={() => setShowBookingModal(false)}>
                 Continue to Booking
-              </Button>
+              </Button></Link>
             </div>
           </div>
         </Modal>
