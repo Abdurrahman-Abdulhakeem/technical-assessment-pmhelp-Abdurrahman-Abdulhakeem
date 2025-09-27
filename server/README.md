@@ -1,386 +1,176 @@
-# 🏥 MedPortal - Complete Healthcare Management Platform
+# MedPortal Backend API
 
-A comprehensive, modern medical portal built with cutting-edge technologies for exceptional user experience and robust functionality.
+A comprehensive medical portal backend built with Node.js, Express, TypeScript, and MongoDB.
 
-## 🌟 Features
+## Features
 
-# 🏥 MedPortal - Complete Healthcare Management Platform
+- **Role-based Authentication & Authorization** (Patient, Doctor, Admin)
+- **Subscription Management** with rate limiting
+- **Appointment Booking System** with conflict detection
+- **Medical Records Management**
+- **Analytics Dashboard** for all user types
+- **Comprehensive API Documentation**
+- **Professional Error Handling**
+- **Security Best Practices** (Helmet, Rate Limiting, Input Sanitization)
+- **Data Validation** with Joi
+- **MongoDB with Mongoose ODM**
 
-A comprehensive, modern medical portal built with cutting-edge technologies for exceptional user experience and robust functionality.
-
-## 🌟 Features
-
-### 🎯 Role-Based Access Control
-- **Patients**: Book appointments, view medical records, manage subscriptions
-- **Doctors**: Manage appointments, create medical notes, view analytics
-- **Admins**: Full system management, user oversight, platform analytics
-
-### 💎 Modern UI/UX
-- **Tailwind CSS Alpha**: Latest CSS-first approach without config files
-- **Framer Motion**: Smooth animations and micro-interactions
-- **Glass Morphism**: Beautiful backdrop blur effects
-- **Responsive Design**: Perfect on all devices
-- **Dark Mode Support**: System preference detection
-
-### 🔐 Security & Performance
-- **JWT Authentication**: Secure token-based auth
-- **Rate Limiting**: Subscription-based API limits
-- **Input Validation**: Zod schema validation
-- **Error Handling**: Comprehensive error boundaries
-- **Query Optimization**: TanStack Query caching
-
-### 📊 Subscription Management
-- **Free Tier**: 2 appointments/month, basic features
-- **Basic Tier**: 5 appointments/month, priority booking
-- **Premium Tier**: Unlimited appointments, advanced analytics
-
-## 🛠️ Tech Stack
-
-### Backend
-```
-Node.js + Express + TypeScript
-MongoDB + Mongoose
-JWT Authentication
-Rate Limiting + Security Headers
-Comprehensive API Documentation
-```
-
-### Frontend
-```
-React 19 + TypeScript + Vite
-Tailwind CSS Alpha (CSS-first)
-TanStack Router + Query
-Framer Motion + Headless UI
-Form Handling + Validation
-```
-
-## 🚀 Quick Start
+## Getting Started
 
 ### Prerequisites
-- Node.js 22 +
+- Node.js (v22 or higher)
 - MongoDB
-- npm/yarn/pnpm
+- npm or yarn
 
-### Backend Setup
+### Installation
+
+1. Clone the repository
 ```bash
-# Navigate to backend
+git clone <repository-url>
 cd server
+```
 
-# Install dependencies
+2. Install dependencies
+```bash
 npm install
+```
 
-# Setup environment
+3. Set up environment variables
+```bash
 cp .env.example .env
-# Edit .env with your configuration
-
-# Start MongoDB service
-# Windows: net start MongoDB
-# macOS: brew services start mongodb-community
-# Linux: sudo systemctl start mongod
-
-# Seed database (optional)
-npm run seed
-
-# Start development server
-npm run dev
 ```
-
-### Frontend Setup
-```bash
-# Navigate to frontend
-cd client
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
+Edit `.env` file with your configuration:
 ```
-
-### 🌐 Access Points
-- **Frontend**: http://localhost:3000
-- **Backend API**: http://localhost:5000
-- **API Docs**: http://localhost:5000/api-docs
-- **Health Check**: http://localhost:5000/health
-
-## 🎭 Test Credentials
-
-### Admin User
-```
-Email: admin@medportal.com
-Password: admin123456
-```
-
-### Doctor Users
-```
-Dr. Johnson (Dermatology)
-Email: dr.johnson@medportal.com
-Password: doctor123456
-```
-
-### Patient Users
-```
-Alice Williams
-Email: patient1@example.com
-Password: patient123456
-
-Michael Brown
-Email: patient2@example.com
-Password: patient123456
-```
-
-## 🏗️ Project Structure
-
-```
-medportal/
-├── medportal-backend/
-│   ├── src/
-│   │   ├── config/          # Database & app configuration
-│   │   ├── controllers/     # Request handlers
-│   │   ├── middleware/      # Auth, validation, error handling
-│   │   ├── models/          # MongoDB schemas
-│   │   ├── routes/          # API route definitions
-│   │   ├── services/        # Business logic layer
-│   │   ├── types/           # TypeScript definitions
-│   │   ├── utils/           # Helper functions
-│   │   ├── app.ts           # Express app setup
-│   │   └── server.ts        # Server entry point
-│   ├── package.json
-│   └── README.md
-└── medportal-frontend/
-    ├── src/
-    │   ├── components/      # Reusable UI components
-    │   ├── hooks/           # Custom React hooks
-    │   ├── pages/           # Page components
-    │   ├── routes/          # TanStack router config
-    │   ├── services/        # API service layer
-    │   ├── types/           # TypeScript definitions
-    │   ├── utils/           # Helper functions
-    │   ├── index.css        # Tailwind + custom styles
-    │   └── main.tsx         # React entry point
-    ├── package.json
-    └── index.html
-```
-
-## 🔑 Key Features Implemented
-
-### Authentication & Authorization
-- [x] JWT-based authentication
-- [x] Role-based permissions
-- [x] Protected routes
-- [x] Session management
-
-### User Management
-- [x] Multi-role registration
-- [x] Profile management
-- [x] Account activation/deactivation
-- [x] Password security
-
-### Appointment System
-- [x] Appointment booking
-- [x] Schedule management
-- [x] Status tracking
-- [x] Conflict detection
-- [x] Cancellation system
-
-### Medical Records
-- [x] Electronic health records
-- [x] Doctor notes
-- [x] Medication tracking
-- [x] File attachments
-- [x] Access controls
-
-### Subscription Management
-- [x] Tiered pricing
-- [x] Usage tracking
-- [x] Upgrade/downgrade
-- [x] Rate limiting
-
-### Analytics Dashboard
-- [x] Patient analytics
-- [x] Doctor practice stats
-- [x] System-wide metrics
-- [x] Data visualization
-
-## 🎨 Design System
-
-### Color Palette
-```css
-Primary: Blue (#0ea5e9) to Purple (#8b5cf6)
-Success: Green (#22c55e)
-Warning: Yellow (#f59e0b)
-Danger: Red (#ef4444)
-Neutral: Slate (#64748b)
-```
-
-### Typography
-```css
-Headings: Inter, bold weights
-Body: Inter, regular/medium
-Code: JetBrains Mono
-```
-
-### Components
-- **Cards**: Rounded corners, subtle shadows, hover effects
-- **Buttons**: Gradient backgrounds, smooth transitions
-- **Forms**: Clean inputs with focus states
-- **Navigation**: Modern sidebar with active states
-- **Modals**: Glass morphism with backdrop blur
-
-## 🔧 API Endpoints
-
-### Authentication
-```
-POST /api/v1/auth/register    # User registration
-POST /api/v1/auth/login       # User login
-POST /api/v1/auth/logout      # User logout
-GET  /api/v1/auth/me          # Get current user
-PATCH /api/v1/auth/update-profile # Update profile
-```
-
-### Appointments
-```
-POST /api/v1/appointments     # Book appointment
-GET  /api/v1/appointments/my  # Get user appointments
-GET  /api/v1/appointments/:id # Get appointment details
-PATCH /api/v1/appointments/:id/status # Update status
-PATCH /api/v1/appointments/:id/cancel # Cancel appointment
-```
-
-### Subscriptions
-```
-GET  /api/v1/subscriptions           # Get all plans
-GET  /api/v1/subscriptions/current   # Get current plan
-POST /api/v1/subscriptions/upgrade   # Upgrade plan
-GET  /api/v1/subscriptions/appointment-limit # Check limits
-```
-
-### Medical Records
-```
-POST /api/v1/medical-records         # Create record
-GET  /api/v1/medical-records/my      # Get patient records
-GET  /api/v1/medical-records/:id     # Get record details
-PATCH /api/v1/medical-records/:id    # Update record
-DELETE /api/v1/medical-records/:id   # Delete record
-```
-
-## 🚀 Deployment
-
-### Environment Variables
-```bash
-# Backend (.env)
-NODE_ENV=production
+NODE_ENV=development
 PORT=5000
-DATABASE_URI=mongodb+srv://...
-DATABASE_PASSWORD=your_password
-JWT_SECRET=your_jwt_secret
+DATABASE_URI=mongodb://localhost:27017/medportal
+JWT_SECRET=your-super-secure-jwt-secret-here
 JWT_EXPIRES_IN=90d
-FRONTEND_URL=https://your-domain.com
-
-# Frontend (.env)
-VITE_API_URL=https://api.your-domain.com/api/v1
-VITE_APP_NAME=MedPortal
+JWT_COOKIE_EXPIRES_IN=90
 ```
 
-### Build Commands
-```bash
-# Backend
-npm run build
-npm start
+4. Start MongoDB service
 
-# Frontend
-npm run build
+5. Seed the database (optional)
+```bash
+npm run seed
 ```
 
-
-<!-- ## 🧪 Testing
-
-### Backend Testing
+6. Start the development server
 ```bash
-npm run test              # Run all tests
-npm run test:watch        # Watch mode
-npm run test:coverage     # Coverage report
+npm run dev
 ```
 
-### Frontend Testing
-```bash
-npm run test              # Run component tests
-npm run test:e2e          # End-to-end tests
-npm run test:coverage     # Coverage report
-``` -->
+The server will start on http://localhost:5000
 
-## 📈 Performance Optimizations
+### Test Credentials (after seeding)
+- **Admin**: admin@medportal.com / admin123456
+- **Doctor**: dr.johnson@medportal.com / doctor123456
+- **Patient**: patient1@example.com / patient123456
 
-### Backend
-- **Database Indexing**: Optimized MongoDB queries
-- **Rate Limiting**: Subscription-based limits
-- **Compression**: Gzip response compression
-- **Caching**: Query result caching
-- **Connection Pooling**: MongoDB connection optimization
+## API Documentation
 
-### Frontend
-- **Code Splitting**: Route-based splitting
-- **Query Caching**: TanStack Query optimization
-- **Image Optimization**: Lazy loading, WebP format
-- **Bundle Analysis**: Webpack bundle analyzer
-- **Service Workers**: Offline functionality
+Access the API documentation at: http://localhost:5000/api-docs
 
-## 🔒 Security Measures
+### Main Endpoints
 
-### Backend Security
-- **Helmet.js**: Security headers
-- **CORS**: Cross-origin configuration
-- **Rate Limiting**: API protection
-- **Input Sanitization**: MongoDB injection prevention
-- **JWT Security**: Secure token handling
+#### Authentication
+- `POST /api/v1/auth/register` - Register new user
+- `POST /api/v1/auth/login` - User login
+- `GET /api/v1/auth/me` - Get current user
 
-### Frontend Security
-- **CSP Headers**: Content Security Policy
-- **XSS Protection**: Input sanitization
-- **HTTPS Only**: Secure connections
-- **Token Storage**: Secure storage practices
+#### Appointments
+- `POST /api/v1/appointments` - Book appointment (Patient)
+- `GET /api/v1/appointments/my` - Get user appointments
+- `PATCH /api/v1/appointments/:id/cancel` - Cancel appointment
 
-## 📱 Mobile Responsiveness
+#### Subscriptions
+- `GET /api/v1/subscriptions` - Get available plans
+- `POST /api/v1/subscriptions/upgrade` - Upgrade subscription
 
-- **Breakpoints**: Mobile-first design
-- **Touch Gestures**: Optimized interactions
-- **Performance**: Optimized for mobile networks
-- **PWA Ready**: Service worker implementation
+#### Medical Records
+- `POST /api/v1/medical-records` - Create record (Doctor)
+- `GET /api/v1/medical-records/my` - Get patient records
 
-## 🌐 Browser Support
+## Project Structure
+```
+src/
+├── config/          # Database configuration
+├── controllers/     # Route controllers
+├── middleware/      # Custom middleware
+├── models/          # Mongoose models
+├── routes/          # API routes
+├── services/        # Business logic
+├── types/           # TypeScript type definitions
+├── utils/           # Utility functions
+├── scripts/         # Database seeding scripts
+├── app.ts           # Express app configuration
+└── server.ts        # Server entry point
 
-- Chrome 90+
-- Firefox 88+
-- Safari 14+
-- Edge 90+
-- Mobile browsers (iOS Safari, Chrome Mobile)
+## Scripts
 
-## 🤝 Contributing
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm start` - Start production server
+- `npm run seed` - Seed database with test data
+
+## Security Features
+
+- JWT authentication with secure cookies
+- Rate limiting per user role and subscription
+- Input validation and sanitization
+- MongoDB injection prevention
+- CORS configuration
+- Security headers with Helmet
+- Password hashing with bcrypt
+
+## Subscription Tiers
+
+### Free Tier
+- 2 appointments per month
+- Basic medical record access
+
+### Basic Tier ($9.99/month)
+- 5 appointments per month
+- Priority booking
+- Email reminders
+
+### Premium Tier ($19.99/month)
+- Unlimited appointments
+- Advanced analytics
+- 24/7 support
+
+## Contributing
 
 1. Fork the repository
-2. Create feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit changes (`git commit -m 'Add amazing feature'`)
-4. Push to branch (`git push origin feature/amazing-feature`)
-5. Open Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Add tests
+5. Submit a pull request
 
-## 📄 License
+## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- **React Team** - For the amazing React ecosystem
-- **Tailwind CSS** - For the beautiful utility-first CSS
-- **TanStack** - For excellent data fetching and routing
-- **Framer Motion** - For smooth animations
-- **MongoDB** - For the flexible database solution
-
-## 📞 Support
-
-For support, email support@medportal.com or join our Slack channel.
-
----
-
-**Built with ❤️ by the MedPortal Team**
-
-*Revolutionizing healthcare management, one patient at a time.*
+This project is licensed under the MIT License.
+    {
+      email: 'dr.johnson@medportal.com',
+      password: 'doctor123456',
+      firstName: 'Sarah',
+      lastName: 'Johson',
+      role: UserRole.DOCTOR,
+      phone: '+1234567890',
+      isEmailVerified: true,
+      profile: {
+        specialization: 'Cardiology',
+        licenseNumber: 'MD001234',
+        experience: 10,
+        education: ['Harvard Medical School', 'Johns Hopkins Residency'],
+        consultationFee: 200,
+        availability: [
+          { day: 'monday', startTime: '09:00', endTime: '17:00', isAvailable: true },
+          { day: 'tuesday', startTime: '09:00', endTime: '17:00', isAvailable: true },
+          { day: 'wednesday', startTime: '09:00', endTime: '17:00', isAvailable: true },
+          { day: 'thursday', startTime: '09:00', endTime: '17:00', isAvailable: true },
+          { day: 'friday', startTime: '09:00', endTime: '17:00', isAvailable: true }
+        ]
+      }
+    },
