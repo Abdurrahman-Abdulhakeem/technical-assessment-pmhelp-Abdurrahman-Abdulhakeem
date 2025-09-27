@@ -12,16 +12,34 @@ import {
 } from 'lucide-react';
 import { useCurrentUser } from '@/hooks/useAuth';
 import { usePermissions } from '@/hooks/usePermissions';
+import { useAppointments } from '@/hooks/useAppointments';
+import { useMedicalRecords } from '@/hooks/useMedicalRecords';
+import { useSubscriptions } from '@/hooks/useSubscriptions';
+import { usePracticeAnalytics, useSystemAnalytics, usePatientAnalytics } from '@/hooks/useAnalytics';
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { QuickActions } from '@/components/dashboard/QuickActions';
 import { RecentActivity } from '@/components/dashboard/RecentActivity';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
-import { formatDate } from '@/utils/cn';
+import { Loading } from '@/components/ui/Loading';
+import { formatDate, formatDateTime } from '@/utils/cn';
 
 const DashboardPage: React.FC = () => {
   const { data: user } = useCurrentUser();
   const { isPatient, isDoctor, isAdmin } = usePermissions();
+
+  // Fetch real data based on user role
+  const { appointments, isLoading: appointmentsLoading } = useAppointments();
+  const { medicalRecords, isLoading: recordsLoading } = useMedicalRecords();
+  const { currentSubscription, appointmentLimit, isLoading: subscriptionLoading } = useSubscriptions();
+  
+  // Analytics data
+  const { data: practiceData, isLoading: practiceLoading } = usePracticeAnalytics();
+  const { data: systemData, isLoading: systemLoading } = useSystemAnalytics();
+  const { data: patientData, isLoading: patientLoading } = usePatientAnalytics();
+
+  const isLoading = appointmentsLoading || recordsLoading || subscriptionLoading || 
+                   practiceLoading || systemLoading || patientLoading;
 
   const getGreeting = () => {
     const hour = new Date().getHours();
@@ -37,67 +55,97 @@ const DashboardPage: React.FC = () => {
     return 'info';
   };
 
+  const getUpcomingAppointments = () => {
+    if (!appointments) return [];
+    const now = new Date();
+    return appointments
+      .filter(apt => new Date(apt.appointmentDate) > now)
+      .sort((a, b) => new Date(a.appointmentDate).getTime() - new Date(b.appointmentDate).getTime());
+  };
+
+  const getTodaysAppointments = () => {
+    if (!appointments) return [];
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const tomorrow = new Date(today);
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    
+    return appointments.filter(apt => {
+      const aptDate = new Date(apt.appointmentDate);
+      return aptDate >= today && aptDate < tomorrow;
+    });
+  };
+
   const getStatsForRole = () => {
-    // These would be fetched from actual APIs
     if (isPatient) {
+      const upcomingAppointments = getUpcomingAppointments();
+      const recordsCount = medicalRecords?.length || 0;
+      const appointmentsUsed = currentSubscription?.appointmentsUsed || 0;
+      const appointmentLimitValue = currentSubscription?.subscription?.appointmentLimit || 0;
+      
       return [
         {
           title: 'Upcoming Appointments',
-          value: '2',
+          value: upcomingAppointments.length.toString(),
           icon: <Calendar className="w-6 h-6" />,
           color: 'blue' as const,
           trend: { value: 0, isPositive: true }
         },
         {
           title: 'Medical Records',
-          value: '8',
+          value: recordsCount.toString(),
           icon: <FileText className="w-6 h-6" />,
           color: 'green' as const,
           trend: { value: 12.5, isPositive: true }
         },
         {
-          title: 'Health Score',
-          value: '85%',
-          icon: <Heart className="w-6 h-6" />,
-          color: 'red' as const,
-          trend: { value: 5, isPositive: true }
-        },
-        {
-          title: 'Days Active',
-          value: '24',
+          title: 'Appointments Used',
+          value: `${appointmentsUsed}/${appointmentLimitValue === -1 ? '∞' : appointmentLimitValue}`,
           icon: <Activity className="w-6 h-6" />,
           color: 'purple' as const,
           trend: { value: 8, isPositive: true }
+        },
+        {
+          title: 'Plan',
+          value: currentSubscription?.subscription?.tier?.toUpperCase() || 'FREE',
+          icon: <Shield className="w-6 h-6" />,
+          color: 'yellow' as const,
+          trend: { value: 0, isPositive: true }
         }
       ];
     }
 
     if (isDoctor) {
+      const todaysAppointments = getTodaysAppointments();
+      const totalPatients = practiceData?.totalPatients || 0;
+      const totalHours = practiceData?.totalHours || 0;
+      const avgDuration = practiceData?.averageDuration || 0;
+      
       return [
         {
           title: "Today's Appointments",
-          value: '6',
+          value: todaysAppointments.length.toString(),
           icon: <Calendar className="w-6 h-6" />,
           color: 'blue' as const,
           trend: { value: 15, isPositive: true }
         },
         {
           title: 'Total Patients',
-          value: '142',
+          value: totalPatients.toString(),
           icon: <Users className="w-6 h-6" />,
           color: 'green' as const,
           trend: { value: 8, isPositive: true }
         },
         {
-          title: 'Hours This Week',
-          value: '38',
+          title: 'Hours This Month',
+          value: `${Math.round(totalHours)}h`,
           icon: <Clock className="w-6 h-6" />,
           color: 'purple' as const,
           trend: { value: 3, isPositive: true }
         },
         {
-          title: 'Patient Rating',
-          value: '4.8',
+          title: 'Avg Duration',
+          value: `${Math.round(avgDuration)}min`,
           icon: <TrendingUp className="w-6 h-6" />,
           color: 'yellow' as const,
           trend: { value: 2, isPositive: true }
@@ -106,18 +154,22 @@ const DashboardPage: React.FC = () => {
     }
 
     if (isAdmin) {
+      const totalUsers = systemData?.totalUsers || 0;
+      const totalAppointments = systemData?.totalAppointments || 0;
+      const totalRevenue = systemData?.totalRevenue || 0;
+      
       return [
         {
           title: 'Total Users',
-          value: '1,248',
+          value: totalUsers.toLocaleString(),
           icon: <Users className="w-6 h-6" />,
           color: 'blue' as const,
           trend: { value: 12, isPositive: true }
         },
         {
-          title: 'Active Sessions',
-          value: '324',
-          icon: <Activity className="w-6 h-6" />,
+          title: 'Total Appointments',
+          value: totalAppointments.toLocaleString(),
+          icon: <Calendar className="w-6 h-6" />,
           color: 'green' as const,
           trend: { value: 18, isPositive: true }
         },
@@ -130,7 +182,7 @@ const DashboardPage: React.FC = () => {
         },
         {
           title: 'Revenue',
-          value: '$24,567',
+          value: `$${totalRevenue.toLocaleString()}`,
           icon: <TrendingUp className="w-6 h-6" />,
           color: 'purple' as const,
           trend: { value: 23, isPositive: true }
@@ -141,11 +193,31 @@ const DashboardPage: React.FC = () => {
     return [];
   };
 
+  const getNextAppointment = () => {
+    const upcoming = getUpcomingAppointments();
+    return upcoming.length > 0 ? upcoming[0] : null;
+  };
+
+  const getTodaysSchedule = () => {
+    if (!isDoctor) return [];
+    return getTodaysAppointments().slice(0, 4);
+  };
+
   const stats = getStatsForRole();
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-center min-h-[200px]">
+          <Loading size="lg" text="Loading your dashboard..." />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
-      {/* Header */}
+      {/* Header - keeping existing code */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -162,7 +234,11 @@ const DashboardPage: React.FC = () => {
               {getGreeting()}, {user?.firstName}!
             </h1>
             <p className="text-blue-100 text-lg mb-4">
-              {formatDate(new Date())} • {isPatient ? 'Take control of your health journey' : isDoctor ? 'Ready to help your patients' : 'Manage your platform'}
+              {formatDate(new Date())} • {
+                isPatient ? 'Take control of your health journey' : 
+                isDoctor ? 'Ready to help your patients' : 
+                'Manage your platform'
+              }
             </p>
             <div className="flex items-center gap-3">
               <Badge variant={getRoleColor()}>
@@ -171,6 +247,11 @@ const DashboardPage: React.FC = () => {
               <Badge variant="outline" className="border-white/30 text-white">
                 {user?.isEmailVerified ? 'Verified' : 'Unverified'}
               </Badge>
+              {isPatient && currentSubscription && (
+                <Badge variant="outline" className="border-white/30 text-white">
+                  {currentSubscription.subscription?.name || 'Free Plan'}
+                </Badge>
+              )}
             </div>
           </div>
           
@@ -200,18 +281,15 @@ const DashboardPage: React.FC = () => {
 
       {/* Main Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Quick Actions - Takes up 1 column */}
         <div className="lg:col-span-1">
           <QuickActions />
         </div>
-
-        {/* Recent Activity - Takes up 2 columns */}
         <div className="lg:col-span-2">
           <RecentActivity />
         </div>
       </div>
 
-      {/* Additional Cards for specific roles */}
+      {/* Patient-specific content */}
       {isPatient && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
@@ -224,16 +302,21 @@ const DashboardPage: React.FC = () => {
             <CardContent>
               <div className="space-y-4">
                 <div className="flex justify-between items-center p-3 bg-green-50 rounded-xl">
-                  <span className="font-medium text-green-900">Blood Pressure</span>
-                  <span className="text-green-600">Normal</span>
+                  <span className="font-medium text-green-900">Medical Records</span>
+                  <span className="text-green-600">{medicalRecords?.length || 0} Records</span>
                 </div>
                 <div className="flex justify-between items-center p-3 bg-blue-50 rounded-xl">
-                  <span className="font-medium text-blue-900">Heart Rate</span>
-                  <span className="text-blue-600">72 BPM</span>
+                  <span className="font-medium text-blue-900">Total Appointments</span>
+                  <span className="text-blue-600">{appointments?.length || 0} Visits</span>
                 </div>
-                <div className="flex justify-between items-center p-3 bg-yellow-50 rounded-xl">
-                  <span className="font-medium text-yellow-900">BMI</span>
-                  <span className="text-yellow-600">22.5</span>
+                <div className="flex justify-between items-center p-3 bg-purple-50 rounded-xl">
+                  <span className="font-medium text-purple-900">Plan Status</span>
+                  <span className="text-purple-600">
+                    {currentSubscription?.subscription?.tier
+                      ? currentSubscription.subscription.tier.charAt(0).toUpperCase() +
+                        currentSubscription.subscription.tier.slice(1)
+                      : 'Free'}
+                  </span>
                 </div>
               </div>
             </CardContent>
@@ -247,21 +330,41 @@ const DashboardPage: React.FC = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-6">
-                <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                  <Calendar className="w-8 h-8 text-blue-600" />
-                </div>
-                <h3 className="font-semibold text-slate-900 mb-1">
-                  Dr. Sarah Johnson
-                </h3>
-                <p className="text-slate-600 text-sm mb-2">Dermatology Consultation</p>
-                <p className="text-blue-600 font-medium">Tomorrow, 2:00 PM</p>
-              </div>
+              {(() => {
+                const nextAppointment = getNextAppointment();
+                if (!nextAppointment) {
+                  return (
+                    <div className="text-center py-6">
+                      <div className="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                        <Calendar className="w-8 h-8 text-slate-400" />
+                      </div>
+                      <h3 className="font-semibold text-slate-600 mb-1">No upcoming appointments</h3>
+                      <p className="text-slate-500 text-sm">Schedule your next visit</p>
+                    </div>
+                  );
+                }
+                
+                return (
+                  <div className="text-center py-6">
+                    <div className="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                      <Calendar className="w-8 h-8 text-blue-600" />
+                    </div>
+                    <h3 className="font-semibold text-slate-900 mb-1">
+                      Dr. {nextAppointment.doctor?.firstName} {nextAppointment.doctor?.lastName}
+                    </h3>
+                    <p className="text-slate-600 text-sm mb-2">{nextAppointment.reason}</p>
+                    <p className="text-blue-600 font-medium">
+                      {formatDateTime(nextAppointment.appointmentDate)}
+                    </p>
+                  </div>
+                );
+              })()}
             </CardContent>
           </Card>
         </div>
       )}
 
+      {/* Doctor-specific content */}
       {isDoctor && (
         <Card>
           <CardHeader>
@@ -271,27 +374,142 @@ const DashboardPage: React.FC = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-3">
-              {[
-                { time: '09:00', patient: 'John Smith', type: 'Consultation' },
-                { time: '10:30', patient: 'Mary Johnson', type: 'Follow-up' },
-                { time: '14:00', patient: 'Robert Davis', type: 'Check-up' },
-                { time: '15:30', patient: 'Lisa Wilson', type: 'Consultation' },
-              ].map((appointment, index) => (
-                <div key={index} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
-                  <div className="flex items-center gap-3">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    <div>
-                      <p className="font-medium text-slate-900">{appointment.patient}</p>
-                      <p className="text-sm text-slate-600">{appointment.type}</p>
-                    </div>
+            {(() => {
+              const todaysSchedule = getTodaysSchedule();
+              
+              if (todaysSchedule.length === 0) {
+                return (
+                  <div className="text-center py-6">
+                    <Clock className="w-16 h-16 text-slate-400 mx-auto mb-4" />
+                    <h3 className="font-semibold text-slate-600 mb-1">No appointments today</h3>
+                    <p className="text-slate-500 text-sm">Enjoy your day off!</p>
                   </div>
-                  <span className="text-sm font-medium text-blue-600">{appointment.time}</span>
+                );
+              }
+              
+              return (
+                <div className="space-y-3">
+                  {todaysSchedule.map((appointment) => (
+                    <div key={appointment._id} className="flex items-center justify-between p-3 bg-slate-50 rounded-xl">
+                      <div className="flex items-center gap-3">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div>
+                          <p className="font-medium text-slate-900">
+                            {appointment.patient?.firstName} {appointment.patient?.lastName}
+                          </p>
+                          <p className="text-sm text-slate-600">{appointment.reason}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-medium text-blue-600">
+                          {new Date(appointment.appointmentDate).toLocaleTimeString('en-US', {
+                            hour: '2-digit',
+                            minute: '2-digit'
+                          })}
+                        </p>
+                        <p className="text-xs text-slate-500">{appointment.duration} min</p>
+                      </div>
+                    </div>
+                  ))}
+                  
+                  {getTodaysAppointments().length > 4 && (
+                    <div className="text-center pt-3">
+                      <p className="text-sm text-blue-600">
+                        +{getTodaysAppointments().length - 4} more appointments today
+                      </p>
+                    </div>
+                  )}
                 </div>
-              ))}
-            </div>
+              );
+            })()}
           </CardContent>
         </Card>
+      )}
+
+      {/* Fixed Admin-specific content */}
+      {isAdmin && systemData && (
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="w-5 h-5 text-blue-500" />
+                User Breakdown
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {systemData.userStats && systemData.userStats.length > 0 ? (
+                  systemData.userStats.map((stat) => (
+                    <div key={stat._id} className="flex justify-between items-center">
+                      <span className="text-slate-600 capitalize">{stat._id}s</span>
+                      <div className="text-right">
+                        <p className="font-semibold text-slate-900">{stat.count}</p>
+                        <p className="text-xs text-green-600">{stat.active} active</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-4 text-slate-500">
+                    <p>No user data available</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Activity className="w-5 h-5 text-green-500" />
+                Appointments
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {systemData.appointmentStats && systemData.appointmentStats.length > 0 ? (
+                  systemData.appointmentStats.map((stat) => (
+                    <div key={stat._id} className="flex justify-between items-center">
+                      <span className="text-slate-600 capitalize">{stat._id.replace('_', ' ')}</span>
+                      <span className="font-semibold text-slate-900">{stat.count}</span>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-4 text-slate-500">
+                    <p>No appointment data available</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="w-5 h-5 text-purple-500" />
+                Revenue
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {systemData.subscriptionRevenue && systemData.subscriptionRevenue.length > 0 ? (
+                  systemData.subscriptionRevenue.map((stat) => (
+                    <div key={stat._id} className="flex justify-between items-center">
+                      <span className="text-slate-600 capitalize">{stat._id}</span>
+                      <div className="text-right">
+                        <p className="font-semibold text-slate-900">${stat.revenue}</p>
+                        <p className="text-xs text-slate-500">{stat.count} users</p>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="text-center py-4 text-slate-500">
+                    <p>No revenue data available</p>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       )}
     </div>
   );

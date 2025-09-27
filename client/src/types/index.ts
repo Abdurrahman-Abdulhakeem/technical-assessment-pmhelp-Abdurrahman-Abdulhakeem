@@ -188,19 +188,56 @@ export interface PracticeAnalytics {
   growthRate?: number
 }
 
-// System-wide analytics (for admins)
 export interface SystemAnalytics {
-  totalUsers: number
-  totalDoctors: number
-  totalPatients: number
-  totalAppointments: number
-  totalRevenue: number
-  activeSubscriptions?: number
-  growthRate?: number
-  usersByRole?: {
-    [key in UserRole]?: number
-  }
+  userStats: Array<{
+    _id: UserRole;
+    count: number;
+    active: number;
+  }>;
+  appointmentStats: Array<{
+    _id: AppointmentStatus;
+    count: number;
+  }>;
+  subscriptionRevenue: Array<{
+    _id: SubscriptionTier;
+    count: number;
+    revenue: number;
+  }>;
+  totalUsers: number;
+  totalAppointments: number;
+  totalRevenue: number;
 }
+
+// Updated PracticeAnalytics to match backend response
+export interface PracticeAnalytics {
+  totalAppointments: number;
+  totalPatients: number;
+  totalHours: number;
+  averageDuration: number;
+  appointmentsByStatus: Array<{
+    _id: string;
+    count: number;
+    totalDuration: number;
+  }>;
+  monthlyTrends: Array<{
+    _id: { year: number; month: number };
+    count: number;
+    totalHours: number;
+  }>;
+}
+
+// Updated PatientAnalytics
+export interface PatientAnalytics {
+  appointmentHistory: Appointment[];
+  appointmentStats: Array<{
+    _id: AppointmentStatus;
+    count: number;
+  }>;
+  medicalRecordsCount: number;
+  totalAppointments: number;
+  uniqueDoctorsVisited: number;
+}
+
 
 export interface ApiResponse<T = any> {
   success: boolean

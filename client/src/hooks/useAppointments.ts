@@ -1,14 +1,17 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'react-hot-toast';
+import { usePermissions } from '@/hooks/usePermissions';
 import type { AppointmentStatus, BookAppointmentData } from '@/types';
 import { AppointmentService } from '@/services/appointmentService';
 
 export const useAppointments = () => {
   const queryClient = useQueryClient();
+  const { user, isAdmin } = usePermissions();
 
   const { data: appointments, isLoading, error } = useQuery({
     queryKey: ['myAppointments'],
     queryFn: AppointmentService.getMyAppointments,
+    enabled: !!user && !isAdmin , // Only fetch if user is logged in
     staleTime: 2 * 60 * 1000, // 2 minutes
   });
 
@@ -18,10 +21,11 @@ export const useAppointments = () => {
     onSuccess: () => {
       toast.success('Appointment booked successfully!');
       queryClient.invalidateQueries({ queryKey: ['myAppointments'] });
-      queryClient.invalidateQueries({ queryKey: ['subscriptions'] });
+      queryClient.invalidateQueries({ queryKey: ['currentSubscription'] });
+      queryClient.invalidateQueries({ queryKey: ['appointmentLimit'] });
     },
-    onError: () => {
-      toast.error('Failed to book appointment. Please try again.');
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to book appointment. Please try again.');
     },
   });
 
@@ -32,8 +36,8 @@ export const useAppointments = () => {
       toast.success('Appointment cancelled successfully!');
       queryClient.invalidateQueries({ queryKey: ['myAppointments'] });
     },
-    onError: () => {
-      toast.error('Failed to cancel appointment.');
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to cancel appointment.');
     },
   });
 
@@ -47,13 +51,13 @@ export const useAppointments = () => {
       toast.success('Appointment status updated!');
       queryClient.invalidateQueries({ queryKey: ['myAppointments'] });
     },
-    onError: () => {
-      toast.error('Failed to update appointment status.');
+    onError: (error: any) => {
+      toast.error(error?.response?.data?.message || 'Failed to update appointment status.');
     },
   });
 
   return {
-    appointments,
+    appointments: appointments || [],
     isLoading,
     error,
     bookAppointment: bookAppointmentMutation,
@@ -63,18 +67,22 @@ export const useAppointments = () => {
 };
 
 export const useAppointment = (id: string) => {
+  const { user, isAdmin } = usePermissions();
+  
   return useQuery({
     queryKey: ['appointment', id],
     queryFn: () => AppointmentService.getAppointmentById(id),
-    enabled: !!id,
+    enabled: !!id && !!user && !isAdmin,
   });
 };
 
 export const useDoctorAppointments = (doctorId: string) => {
+  const { isDoctor, isAdmin } = usePermissions();
+  
   return useQuery({
     queryKey: ['doctorAppointments', doctorId],
     queryFn: () => AppointmentService.getDoctorAppointments(doctorId),
-    enabled: !!doctorId,
+    enabled: !!doctorId && (isDoctor),
     staleTime: 2 * 60 * 1000,
   });
 };

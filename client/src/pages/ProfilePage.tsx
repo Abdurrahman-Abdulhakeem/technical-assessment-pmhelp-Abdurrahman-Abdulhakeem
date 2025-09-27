@@ -29,9 +29,14 @@ const ProfilePage: React.FC = () => {
   const { isDoctor, isPatient, isAdmin } = usePermissions();
 
   // fetch doctor profile only if user is doctor
-  const { data: doctorProfile } = useDoctorProfile(
+  const { data: rawDoctorProfile } = useDoctorProfile(
     isDoctor ? user?._id : undefined
   );
+
+  const doctorProfile = rawDoctorProfile
+  ? { ...rawDoctorProfile, profile: { ...rawDoctorProfile } }
+  : null;
+  
   const { updateProfile: updateDoctorProfile } = useDoctorMutations();
 
   // personal info editing
@@ -75,16 +80,16 @@ const ProfilePage: React.FC = () => {
 
   // doctor info editing
   const [isDoctorEditing, setIsDoctorEditing] = useState(false);
-  const [doctorForm, setDoctorForm] = useState({
-    specialization: doctorProfile?.profile.specialization || "",
-    licenseNumber: doctorProfile?.profile.licenseNumber || "",
-    experience: doctorProfile?.profile.experience || 0,
-    education: doctorProfile?.profile.education || [],
-    consultationFee: doctorProfile?.profile.consultationFee || 0,
-  });
+const [doctorForm, setDoctorForm] = useState({
+  specialization: "",
+  licenseNumber: "",
+  experience: 0,
+  education: [] as string[],
+  consultationFee: 0,
+});
 
   useEffect(() => {
-    if (doctorProfile) {
+    if (doctorProfile?.profile) {
       setDoctorForm({
         specialization: doctorProfile.profile.specialization || "",
         licenseNumber: doctorProfile.profile.licenseNumber || "",
@@ -365,7 +370,7 @@ const ProfilePage: React.FC = () => {
                   <div>
                     <span className="font-semibold">Availability:</span>
                     <ul className="mt-2 space-y-1">
-                      {doctorProfile.profile.availability?.map((slot, i) => (
+                      {doctorProfile?.profile?.availability?.map((slot: any, i: any) => (
                         <li key={i} className="flex items-center gap-2 text-sm">
                           <Clock className="w-4 h-4 text-slate-500" />
                           {slot.day}: {slot.startTime} - {slot.endTime} (
@@ -379,7 +384,7 @@ const ProfilePage: React.FC = () => {
                 <>
                   <Input
                     label="Specialization"
-                    value={doctorForm.specialization}
+                    value={doctorProfile.specialization}
                     onChange={(e) =>
                       handleDoctorInput("specialization", e.target.value)
                     }

@@ -6,12 +6,12 @@ import type {
 } from '@/types';
 
 export class DoctorService {
-  static async getDoctorProfile(id: string): Promise<DoctorProfile> {
+  static async getDoctorProfile(id: string): Promise<DoctorProfile | any> {
     const response = await apiService.get<ApiResponse<DoctorProfile>>(`/doctors/${id}/profile`);
     return response.data!;
   }
 
-  static async getMyProfile(): Promise<DoctorProfile> {
+  static async getMyProfile(): Promise<DoctorProfile | any> {
     const response = await apiService.get<ApiResponse<DoctorProfile>>('/doctors/profile/me');
     return response.data!;
   }
